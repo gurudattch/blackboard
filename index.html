@@ -199,46 +199,84 @@
         .skills-container::before { content: 'SKILL_MATRIX_V2.0'; position: absolute; top: 10px; left: 20px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); opacity: 0.5; }
 
         /* --- CVE Section (New) --- */
-        .cve-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .cve-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateX(10px);
-        }
-        .cve-id {
-            font-family: var(--font-mono);
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-main);
-        }
-        .cve-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
-            max-width: 70%;
-        }
-        .severity-badge {
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border-radius: 2px;
-            text-transform: uppercase;
-            font-family: var(--font-mono);
-        }
-        .sev-critical { background: rgba(255, 0, 85, 0.2); color: var(--accent-secondary); border: 1px solid var(--accent-secondary); }
-        .sev-high { background: rgba(255, 165, 0, 0.2); color: #ffa500; border: 1px solid #ffa500; }
-        .sev-medium { background: rgba(0, 212, 255, 0.2); color: var(--accent-primary); border: 1px solid var(--accent-primary); }
+      .cve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* Mini Card */
+.cve-mini-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.cve-mini-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-primary);
+}
+
+/* CVE ID */
+.cve-mini-id {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+/* Severity */
+.severity-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 8px;
+  font-size: 0.65rem;
+  font-weight: bold;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+}
+
+/* Hover Detail */
+.cve-hover {
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  width: 260px;
+  background: #0e1628;
+  border: 1px solid var(--accent-primary);
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease;
+  z-index: 10;
+}
+
+.cve-mini-card:hover .cve-hover {
+  opacity: 1;
+}
+
+/* Arrow */
+.cve-hover::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--accent-primary);
+}
+
+/* Severity Colors */
+.sev-critical { border-left: 3px solid var(--accent-secondary); }
+.sev-high     { border-left: 3px solid #ffa500; }
+.sev-medium   { border-left: 3px solid var(--accent-primary); }
 
         /* --- Letter of Appreciation (New) --- */
         .letter-card {
@@ -476,46 +514,48 @@
     </section>
 
     <!-- CVE Section (New) -->
-    <section id="cves" style="background: #0b101b;">
-        <div class="container">
-            <h2 class="section-title">Assigned CVEs</h2>
-            <div style="max-width: 800px; margin: 0 auto;">
-                <p style="text-align:center; color:var(--text-muted); margin-bottom:2rem;">A log of critical vulnerabilities discovered and assigned CVE IDs.</p>
-                
-                <div class="cve-card">
-                    <div>
-                        <div class="cve-id">CVE-2023-3948</div>
-                        <div class="cve-desc">Authenticated Remote Code Execution (RCE) in XYZ Enterprise Portal via file upload bypass.</div>
-                    </div>
-                    <span class="severity-badge sev-critical">CRITICAL</span>
-                </div>
+  <section id="cves" style="background:#0b101b;">
+  <div class="container">
+    <h2 class="section-title">Assigned CVEs</h2>
 
-                <div class="cve-card">
-                    <div>
-                        <div class="cve-id">CVE-2022-10294</div>
-                        <div class="cve-desc">Stored Cross-Site Scripting (XSS) in the admin dashboard of ABC Cloud Services affecting all users.</div>
-                    </div>
-                    <span class="severity-badge sev-high">HIGH</span>
-                </div>
+    <div class="cve-grid">
 
-                <div class="cve-card">
-                    <div>
-                        <div class="cve-id">CVE-2022-0881</div>
-                        <div class="cve-desc">SQL Injection vulnerability in the search functionality of DEF E-commerce platform.</div>
-                    </div>
-                    <span class="severity-badge sev-high">HIGH</span>
-                </div>
-
-                <div class="cve-card">
-                    <div>
-                        <div class="cve-id">CVE-2021-44521</div>
-                        <div class="cve-desc">Improper Access Control allowing IDOR on user profile data in GHI Social App.</div>
-                    </div>
-                    <span class="severity-badge sev-medium">MEDIUM</span>
-                </div>
-            </div>
+      <div class="cve-mini-card sev-critical">
+        <div class="cve-mini-id">CVE-2023-3948</div>
+        <span class="severity-badge">CRITICAL</span>
+        <div class="cve-hover">
+          Authenticated Remote Code Execution (RCE) via file upload bypass.
         </div>
-    </section>
+      </div>
+
+      <div class="cve-mini-card sev-high">
+        <div class="cve-mini-id">CVE-2022-10294</div>
+        <span class="severity-badge">HIGH</span>
+        <div class="cve-hover">
+          Stored XSS in admin dashboard affecting all users.
+        </div>
+      </div>
+
+      <div class="cve-mini-card sev-high">
+        <div class="cve-mini-id">CVE-2022-0881</div>
+        <span class="severity-badge">HIGH</span>
+        <div class="cve-hover">
+          SQL Injection in search functionality of e-commerce platform.
+        </div>
+      </div>
+
+      <div class="cve-mini-card sev-medium">
+        <div class="cve-mini-id">CVE-2021-44521</div>
+        <span class="severity-badge">MEDIUM</span>
+        <div class="cve-hover">
+          IDOR due to improper access control on user profiles.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
     <!-- Hall of Fame -->
     <section id="hof">
