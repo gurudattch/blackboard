@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gurudatt Choudhary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Handlee', cursive;
+            background: #1a1a1a;
+            color: #d4d4d4;
+            padding: 60px 40px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* Quote in corner */
+        .quote {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #999;
+            max-width: 200px;
+            transform: rotate(-1deg);
+        }
+
+        .hashtag {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            font-size: 0.85rem;
+            color: #888;
+            transform: rotate(1deg);
+        }
+
+        .hashtag a {
+            color: #888;
+            text-decoration: underline;
+            text-decoration-style: wavy;
+        }
+
+        /* Main sections */
+        .section {
+            margin-bottom: 100px;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            transform: rotate(-0.5deg);
+        }
+
+        .section-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: #e0e0e0;
+            font-weight: 400;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            transform: rotate(-1deg);
+        }
+
+        .section-note {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+            margin-top: 10px;
+            transform: rotate(0.5deg);
+        }
+
+        /* Social icons */
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-top: 30px;
+        }
+
+        .social a {
+            color: #d4d4d4;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social a:hover {
+            color: #fff;
+            transform: scale(1.2);
+        }
+
+        /* Footer notes */
+        .footer-notes {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .footer-notes div {
+            margin-bottom: 5px;
+        }
+
+        .footer-notes input[type="checkbox"] {
+            margin-right: 8px;
+            transform: translateY(1px);
+        }
+
+        .cat {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            font-size: 0.75rem;
+            color: #666;
+            text-align: right;
+        }
+
+        .cat-emoji {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 20px;
+            }
+
+            .quote, .hashtag, .footer-notes, .cat {
+                position: static;
+                margin: 20px auto;
+                text-align: center;
+            }
+
+            .section {
+                margin-bottom: 70px;
+            }
+
+            .social {
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quote">
+        "Finding bugs is not just a job,<br>
+        it's a passion that keeps the<br>
+        internet safe."
+    </div>
+
+    <div class="hashtag">
+        #CVE<br>
+        <a href="#">bug hunter</a>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="section-label">[about]</div>
+            <div class="section-title">cybersecurity, ethical hacking</div>
+            <div class="section-note">14+ CVEs discovered</div>
+        </div>
+
+        <div class="section">
+            <div class="section-label">[work]</div>
+            <div class="section-title">NASA, UN, WHO, UNESCO</div>
+            <div class="section-note">top 1% hacker</div>
+            <div class="section-note" style="margin-top: -5px;">~20+ companies thanked me</div>
+        </div>
+
+        <div class="section">
+            <div class="section-label">[skills]</div>
+            <div class="section-title">pentesting, forensics, OSINT</div>
+            <div class="section-note">VulDB researcher</div>
+        </div>
+
+        <div class="social">
+            <a href="https://github.com/gurudattchoudhary" target="_blank" title="GitHub">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="https://twitter.com" target="_blank" title="Twitter">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                </svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" title="Instagram">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#1a1a1a"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#1a1a1a" stroke-width="2"/>
+                </svg>
+            </a>
+            <a href="mailto:contact@gurudattchoudhary.com" title="Email">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/gurudatt-choudhary/" target="_blank" title="LinkedIn">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                    <circle cx="4" cy="4" r="2"/>
+                </svg>
+            </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 25px; font-size: 0.8rem; color: #666; font-style: italic;">
+            always hunting~
+        </div>
+    </div>
+
+    <div class="footer-notes">
+        <div>achievements:</div>
+        <div><input type="checkbox" checked> 14+ CVEs assigned</div>
+        <div><input type="checkbox" checked> CAP & CNSP certified</div>
+        <div><input type="checkbox"> new 0-day hunting</div>
+        <div><input type="checkbox"> securing the web</div>
+    </div>
+
+    <div class="cat">
+        <span class="cat-emoji">🛡️</span>
+        security never sleeps
+    </div>
+</body>
+</html>
