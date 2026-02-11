@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hacking Humans | OSINT Case Engine</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#050a14;
+--card:#0f1623;
+--border:#1e293b;
+--primary:#00d4ff;
+--secondary:#ff0055;
+--text:#e2e8f0;
+--muted:#94a3b8;
+--mono:'Share Tech Mono',monospace;
+}
+
+*{box-sizing:border-box}
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:Inter;
+overflow:hidden;
+}
+
+header{
+height:60px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 16px;
+border-bottom:1px solid var(--border);
+background:#050a14f2;
+}
+
+header h1{
+font-family:var(--mono);
+font-size:1.1rem;
+color:var(--primary);
+letter-spacing:2px;
+}
+
+button{
+background:none;
+border:1px solid var(--primary);
+color:var(--primary);
+padding:6px 10px;
+font-family:var(--mono);
+cursor:pointer;
+margin-left:4px;
+}
+
+#board{
+position:relative;
+width:100vw;
+height:calc(100vh - 60px);
+background:
+linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);
+background-size:30px 30px;
+}
+
+.node{
+position:absolute;
+width:240px;
+background:var(--card);
+border:1px solid var(--border);
+border-left:4px solid var(--primary);
+padding:10px;
+cursor:move;
+z-index:10;
+}
+
+.node h3{
+margin:0 0 6px;
+font-family:var(--mono);
+font-size:.75rem;
+color:var(--primary);
+}
+
+.node textarea{
+width:100%;
+height:90px;
+background:transparent;
+border:none;
+color:var(--muted);
+resize:none;
+outline:none;
+font-size:.8rem;
+}
+
+.node footer{
+display:flex;
+justify-content:space-between;
+font-size:.65rem;
+color:var(--muted);
+}
+
+.person{border-left-color:#00ff9d}
+.digital{border-left-color:#00d4ff}
+.infra{border-left-color:#a855f7}
+.location{border-left-color:#ffa500}
+.event{border-left-color:#ff0055}
+.evidence{border-left-color:#22c55e}
+
+svg{
+position:absolute;
+top:0;left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+line{
+stroke:var(--secondary);
+stroke-width:2;
+stroke-dasharray:4;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>HACKING HUMANS — OSINT CASE</h1>
+<div>
+<button onclick="addNode('person')">Person</button>
+<button onclick="addNode('digital')">Digital</button>
+<button onclick="addNode('infra')">Infra</button>
+<button onclick="addNode('location')">Location</button>
+<button onclick="addNode('event')">Event</button>
+<button onclick="addNode('evidence')">Evidence</button>
+<button onclick="attachEvidence()">Attach</button>
+<button onclick="exportReport()">Report</button>
+<button onclick="exportJSON()">JSON</button>
+</div>
+</header>
+
+<div id="board">
+<svg id="lines"></svg>
+</div>
+
+<input type="file" id="fileInput" hidden multiple>
+
+<script>
+/* ================== DB ================== */
+const DB_NAME="HH_OSINT_DB";
+let db;
+
+function initDB(){
+return new Promise(res=>{
+const r=indexedDB.open(DB_NAME,2);
+r.onupgradeneeded=e=>{
+db=e.target.result;
+db.createObjectStore("case",{keyPath:"key"});
+db.createObjectStore("evidence",{keyPath:"id",autoIncrement:true});
+};
+r.onsuccess=e=>{db=e.target.result;res();}
+});
+}
+
+/* ================== STATE ================== */
+let nodes=[],links=[],drag=null,ox=0,oy=0,linking=null,selectedEvidence=null;
+
+/* ================== NODE ================== */
+function addNode(type,data={}){
+const n=document.createElement("div");
+n.className="node "+type;
+n.style.left=(data.x||200)+"px";
+n.style.top=(data.y||120)+"px";
+n.innerHTML=`
+<h3>${type.toUpperCase()}</h3>
+<textarea>${data.text||""}</textarea>
+<footer>
+<span>${new Date().toLocaleDateString()}</span>
+<span onclick="removeNode(this)">✖</span>
+</footer>`;
+board.appendChild(n);
+nodes.push(n);
+
+n.onmousedown=e=>{
+drag=n;ox=e.offsetX;oy=e.offsetY;
+if(e.shiftKey){
+if(!linking) linking=n;
+else{links.push([linking,n]);linking=null;draw();}
+}
+};
+
+n.onclick=()=>{
+if(n.classList.contains("evidence")) selectedEvidence=n;
+};
+
+saveCase();
+}
+
+function removeNode(x){
+const n=x.closest(".node");
+nodes=nodes.filter(a=>a!==n);
+links=links.filter(l=>!l.includes(n));
+n.remove();
+saveCase();
+draw();
+}
+
+/* ================== DRAG ================== */
+document.onmousemove=e=>{
+if(!drag) return;
+drag.style.left=(e.pageX-ox)+"px";
+drag.style.top=(e.pageY-oy-60)+"px";
+draw(); saveCase();
+};
+document.onmouseup=()=>drag=null;
+
+/* ================== DRAW ================== */
+function draw(){
+lines.innerHTML="";
+links.forEach(l=>{
+const a=l[0].getBoundingClientRect();
+const b=l[1].getBoundingClientRect();
+lines.innerHTML+=`<line x1="${a.left+a.width/2}" y1="${a.top+a.height/2}"
+x2="${b.left+b.width/2}" y2="${b.top+b.height/2}"/>`;
+});
+}
+
+/* ================== SAVE / LOAD ================== */
+function saveCase(){
+if(!db) return;
+const tx=db.transaction("case","readwrite");
+tx.objectStore("case").put({
+key:"active",
+nodes:nodes.map(n=>({
+type:[...n.classList][1],
+x:n.offsetLeft,y:n.offsetTop,
+text:n.querySelector("textarea").value
+})),
+links:links.map(l=>[nodes.indexOf(l[0]),nodes.indexOf(l[1])])
+});
+}
+
+function loadCase(){
+const tx=db.transaction("case","readonly");
+const r=tx.objectStore("case").get("active");
+r.onsuccess=()=>{
+if(!r.result) return;
+nodes.forEach(n=>n.remove());
+nodes=[];links=[];
+r.result.nodes.forEach(n=>addNode(n.type,n));
+r.result.links.forEach(l=>links.push([nodes[l[0]],nodes[l[1]]]));
+draw();
+};
+}
+
+/* ================== EVIDENCE ================== */
+async function hashFile(f){
+const b=await f.arrayBuffer();
+const h=await crypto.subtle.digest("SHA-256",b);
+return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+
+function attachEvidence(){
+if(!selectedEvidence){alert("Select Evidence node");return;}
+fileInput.click();
+}
+
+fileInput.onchange=async e=>{
+const files=[...e.target.files];
+const idx=nodes.indexOf(selectedEvidence);
+const tx=db.transaction("evidence","readwrite");
+const s=tx.objectStore("evidence");
+
+for(const f of files){
+s.add({
+node:idx,
+name:f.name,
+type:f.type,
+hash:await hashFile(f),
+blob:f,
+time:new Date().toISOString()
+});
+}
+alert(files.length+" file(s) attached");
+};
+
+/* ================== EXPORT ================== */
+function exportJSON(){
+const data={nodes,links};
+download(JSON.stringify(data,null,2),"case.json");
+}
+
+function exportReport(){
+let html="<h1>OSINT REPORT</h1>";
+nodes.forEach(n=>{
+html+=`<h3>${[...n.classList][1]}</h3><pre>${n.querySelector("textarea").value}</pre>`;
+});
+download(html,"report.html","text/html");
+}
+
+function download(c,n,t="application/json"){
+const a=document.createElement("a");
+a.href=URL.createObjectURL(new Blob([c],{type:t}));
+a.download=n;a.click();
+}
+
+/* ================== INIT ================== */
+window.onload=async()=>{
+await initDB();
+loadCase();
+};
+</script>
+
+</body>
+</html>
