@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MILITARY INTEL | ARCHIVES</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg:#050a14;
+--card:#0f1623;
+--border:#1e293b;
+--primary:#00d4ff;
+--secondary:#ff0055;
+--text:#e2e8f0;
+--muted:#94a3b8;
+--mono:'Share Tech Mono',monospace;
+}
+
+*{box-sizing:border-box}
+body{
+margin:0;
+background:var(--bg);
+color:var(--text);
+font-family:Inter;
+}
+
+/* --- Header --- */
+header{
+height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px;
+border-bottom:1px solid var(--border);
+background:rgba(5,10,20,0.98);
+position:sticky;
+top:0;
+z-index:100;
+}
+
+header h1{
+font-family:var(--mono);
+font-size:1.2rem;
+color:var(--primary);
+letter-spacing:3px;
+margin:0;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.status-light{ width:8px; height:8px; background:var(--primary); border-radius:50%; box-shadow:0 0 10px var(--primary); animation:blink 2s infinite; }
+@keyframes blink{ 0%, 100%{opacity:1} 50%{opacity:0.4} }
+
+nav a{
+color:var(--muted);
+text-decoration:none;
+font-family:var(--mono);
+font-size:0.8rem;
+margin-left:25px;
+text-transform:uppercase;
+letter-spacing:1px;
+transition:0.2s;
+}
+nav a:hover{ color:var(--secondary); text-shadow:0 0 5px var(--secondary); }
+
+/* --- Main Layout --- */
+#board{
+min-height:calc(100vh - 70px);
+background:
+linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);
+background-size:30px 30px;
+padding:40px;
+}
+
+/* --- List View --- */
+#list-view{ max-width:1200px; margin:0 auto; }
+
+.section-title{
+font-family:var(--mono);
+color:var(--muted);
+font-size:0.9rem;
+margin-bottom:25px;
+border-bottom:1px solid var(--border);
+padding-bottom:10px;
+letter-spacing:2px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill, minmax(350px, 1fr));
+gap:25px;
+}
+
+/* --- Card Style --- */
+.card{
+background:var(--card);
+border:1px solid var(--border);
+position:relative;
+overflow:hidden;
+cursor:pointer;
+transition:transform 0.3s, border-color 0.3s;
+text-decoration:none;
+display:block;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:var(--primary);
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+.card-img-container{
+width:100%;
+height:200px;
+overflow:hidden;
+position:relative;
+border-bottom:1px solid var(--border);
+}
+
+.card-img{
+width:100%;
+height:100%;
+object-fit:cover;
+/* Military Grayscale Filter */
+filter:grayscale(100%) contrast(1.2) brightness(0.8);
+transition:filter 0.3s;
+}
+
+.card:hover .card-img{ filter:grayscale(0%); }
+
+.card-body{ padding:20px; }
+
+.card-label{
+position:absolute;
+top:15px;
+left:-5px;
+background:var(--secondary);
+color:white;
+font-family:var(--mono);
+font-size:0.65rem;
+padding:3px 10px;
+text-transform:uppercase;
+letter-spacing:1px;
+box-shadow:3px 3px 0px rgba(0,0,0,0.5);
+}
+
+.card h2{
+font-family:var(--mono);
+font-size:1.1rem;
+margin:0 0 10px;
+color:var(--text);
+}
+
+.card-meta{
+display:flex;
+justify-content:space-between;
+color:var(--muted);
+font-size:0.75rem;
+font-family:var(--mono);
+margin-bottom:15px;
+opacity:0.7;
+}
+
+.card p{
+font-size:0.9rem;
+color:var(--muted);
+line-height:1.5;
+margin:0;
+display:-webkit-box;
+-webkit-line-clamp:3;
+-webkit-box-orient:vertical;
+overflow:hidden;
+}
+
+/* --- Post View (Hidden by default) --- */
+#post-view{
+max-width:900px;
+margin:0 auto;
+display:none;
+}
+
+.post-header{
+position:relative;
+margin-bottom:30px;
+}
+
+.post-hero{
+width:100%;
+max-height:400px;
+object-fit:cover;
+border:1px solid var(--border);
+filter:grayscale(50%);
+margin-bottom:20px;
+}
+
+.post-title{
+font-family:var(--mono);
+font-size:2.2rem;
+margin:0 0 15px;
+text-transform:uppercase;
+line-height:1.2;
+}
+
+.post-title span{ color:var(--primary); }
+
+.post-info{
+display:flex;
+gap:20px;
+font-family:var(--mono);
+font-size:0.8rem;
+color:var(--muted);
+border-left:3px solid var(--primary);
+padding-left:15px;
+margin-bottom:30px;
+}
+
+.content-area{
+background:rgba(15,22,35,0.8);
+border:1px solid var(--border);
+padding:40px;
+font-size:1.05rem;
+line-height:1.8;
+border-left:1px solid var(--border);
+}
+
+.content-area h3{
+font-family:var(--mono);
+color:var(--primary);
+text-transform:uppercase;
+margin-top:30px;
+border-bottom:1px solid var(--border);
+padding-bottom:10px;
+}
+
+.content-area img{
+max-width:100%;
+border:1px solid var(--border);
+margin:20px 0;
+display:block;
+filter:sepia(20%) contrast(1.1);
+}
+
+.back-btn{
+display:inline-flex;
+align-items:center;
+gap:8px;
+color:var(--muted);
+text-decoration:none;
+font-family:var(--mono);
+font-size:0.85rem;
+margin-bottom:20px;
+border:1px solid var(--border);
+padding:8px 15px;
+background:var(--card);
+transition:0.2s;
+}
+
+.back-btn:hover{
+border-color:var(--primary);
+color:var(--primary);
+}
+
+/* --- UI Elements --- */
+.stamp{
+position:absolute;
+bottom:20px;
+right:20px;
+font-family:var(--mono);
+font-size:1.5rem;
+color:var(--secondary);
+border:2px solid var(--secondary);
+padding:5px 10px;
+transform:rotate(-10deg);
+opacity:0.5;
+text-transform:uppercase;
+pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1><div class="status-light"></div> ARCHIVES // MILITARY INTEL</h1>
+<nav>
+<a href="#" onclick="goHome()">DASHBOARD</a>
+<a href="#">BRIEFINGS</a>
+<a href="#">SETTINGS</a>
+</nav>
+</header>
+
+<div id="board">
+
+<!-- ==========================================
+SECTION 1: THE LIST (LANDING PAGE)
+========================================== -->
+<div id="list-view">
+
+<div class="section-title">// RECENT INTERCEPTS</div>
+
+<div class="grid">
+
+<!-- ====== COPY THIS CARD BLOCK TO ADD NEW POSTS ====== -->
+<a href="#" class="card" onclick="openPost('post-1')">
+<div class="card-label">Classified</div>
+<div class="card-img-container">
+<!-- CHANGE IMAGE SRC HERE -->
+<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800" class="card-img" alt="Intel">
+</div>
+<div class="card-body">
+<h2>OPERATION: DARK HORIZON</h2>
+<div class="card-meta">
+<span>DATE: 2023-10-31</span>
+<span>CLEARANCE: LVL 5</span>
+</div>
+<p>
+Visual reconnaissance confirms hostile movement in Sector 4. Satellite imagery suggests construction of an underground facility. Analysis teams are standing by for further instructions.
+</p>
+</div>
+</a>
+<!-- ====== END CARD BLOCK ====== -->
+
+
+<!-- ====== COPY THIS CARD BLOCK TO ADD NEW POSTS ====== -->
+<a href="#" class="card" onclick="openPost('post-2')">
+<div class="card-label">Decrypted</div>
+<div class="card-img-container">
+<!-- CHANGE IMAGE SRC HERE -->
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800" class="card-img" alt="Tech">
+</div>
+<div class="card-body">
+<h2>CYBER-COUNTERMEASURES</h2>
+<div class="card-meta">
+<span>DATE: 2023-10-28</span>
+<span>CLEARANCE: LVL 3</span>
+</div>
+<p>
+Implementation of new firewall protocols has neutralized the phishing vector identified in last week's breach attempt. Log analysis attached.
+</p>
+</div>
+</a>
+<!-- ====== END CARD BLOCK ====== -->
+
+
+<!-- ====== COPY THIS CARD BLOCK TO ADD NEW POSTS ====== -->
+<a href="#" class="card" onclick="openPost('post-3')">
+<div class="card-label">Intel</div>
+<div class="card-img-container">
+<!-- CHANGE IMAGE SRC HERE -->
+<img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800" class="card-img" alt="Code">
+</div>
+<div class="card-body">
+<h2>INFRASTRUCTURE REPORT</h2>
+<div class="card-meta">
+<span>DATE: 2023-10-25</span>
+<span>CLEARANCE: LVL 2</span>
+</div>
+<p>
+Updated maps of the regional power grid. Vulnerability assessment highlights critical nodes requiring immediate physical security upgrades.
+</p>
+</div>
+</a>
+<!-- ====== END CARD BLOCK ====== -->
+
+</div>
+</div>
+
+
+<!-- ==========================================
+SECTION 2: THE POST TEMPLATES (Hidden by default)
+To add a new full post:
+1. Copy a .post-template block
+2. Change the id="post-X" to match the card above
+========================================== -->
+
+<!-- ====== POST 1 CONTENT ====== -->
+<div id="post-1" class="post-view">
+<a href="#" class="back-btn" onclick="goHome()">← BACK TO ARCHIVES</a>
+<div class="stamp">CONFIDENTIAL</div>
+<div class="post-header">
+<!-- HERO IMAGE -->
+<img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=1200" class="post-hero" alt="Hero">
+<h1 class="post-title">OPERATION: <span>DARK HORIZON</span></h1>
+<div class="post-info">
+<span>DATE: OCTOBER 31, 2023</span>
+<span>AUTHOR: CMDR. SHEPARD</span>
+<span>ID: #884-ALPHA</span>
+</div>
+</div>
+<div class="content-area">
+<p>
+Initial visual reconnaissance confirms hostile movement in Sector 4. Satellite imagery suggests construction of an underground facility. Analysis teams are standing by for further instructions.
+</p>
+<h3>SITUATION REPORT</h3>
+<p>
+At 0400 hours, thermal imaging detected significant heat signatures emanating from the target coordinates. The size of the signature indicates heavy machinery usage.
+</p>
+<!-- INLINE IMAGE EXAMPLE -->
+<img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800" alt="Map">
+<p>
+The grid reference above highlights the primary entry point. Recon teams are advised to maintain radio silence until further notice.
+</p>
+<h3>APPENDIX A: EQUIPMENT</h3>
+<p>
+Standard issue NVG and secure comms are mandatory for this op. Ensure all firmware is updated to v2.1.4 to prevent signal triangulation by hostile forces.
+</p>
+</div>
+</div>
+
+<!-- ====== POST 2 CONTENT ====== -->
+<div id="post-2" class="post-view">
+<a href="#" class="back-btn" onclick="goHome()">← BACK TO ARCHIVES</a>
+<div class="stamp">DECRYPTED</div>
+<div class="post-header">
+<img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200" class="post-hero" alt="Hero">
+<h1 class="post-title">CYBER-<span>COUNTERMEASURES</span></h1>
+<div class="post-info">
+<span>DATE: OCTOBER 28, 2023</span>
+<span>AUTHOR: SYS. ADM. VANCE</span>
+<span>ID: #901-BYTE</span>
+</div>
+</div>
+<div class="content-area">
+<p>
+Implementation of new firewall protocols has neutralized the phishing vector identified in last week's breach attempt.
+</p>
+<h3>CODE SNIPPET</h3>
+<pre style="background:#000; padding:20px; border-left:4px solid var(--primary); color:#00ff9d; overflow-x:auto;">
+// FIREWALL RULE UPDATE
+IF packet.origin == "hostile_subnet" THEN {
+    DROP CONNECTION;
+    LOG_EVENT(SEVERITY_CRITICAL);
+}
+</pre>
+<p>
+All nodes must update their local certificates by 1800 hours or access will be revoked.
+</p>
+</div>
+</div>
+
+<!-- ====== POST 3 CONTENT ====== -->
+<div id="post-3" class="post-view">
+<a href="#" class="back-btn" onclick="goHome()">← BACK TO ARCHIVES</a>
+<div class="stamp">INTEL</div>
+<div class="post-header">
+<img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1200" class="post-hero" alt="Hero">
+<h1 class="post-title">INFRASTRUCTURE <span>REPORT</span></h1>
+<div class="post-info">
+<span>DATE: OCTOBER 25, 2023</span>
+<span>AUTHOR: ENG. ROOK</span>
+<span>ID: #770-STRUCT</span>
+</div>
+</div>
+<div class="content-area">
+<p>
+Updated maps of the regional power grid. Vulnerability assessment highlights critical nodes requiring immediate physical security upgrades.
+</p>
+<img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800" alt="Grid">
+<p>
+The vulnerability lies in the legacy SCADA systems located at substation 7. A hardware patch is required.
+</p>
+</div>
+</div>
+
+</div>
+
+<script>
+/* --- Simple Navigation Logic --- */
+function openPost(id) {
+// Hide List
+document.getElementById('list-view').style.display = 'none';
+
+// Hide all open posts
+document.querySelectorAll('.post-view').forEach(p => p.style.display = 'none');
+
+// Show target post
+document.getElementById(id).style.display = 'block';
+}
+
+function goHome() {
+// Show List
+document.getElementById('list-view').style.display = 'block';
+
+// Hide all posts
+document.querySelectorAll('.post-view').forEach(p => p.style.display = 'none');
+}
+</script>
+
+</body>
+</html>
