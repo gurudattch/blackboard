@@ -411,6 +411,9 @@
             .cve-card { flex-direction: column; align-items: flex-start; }
             .cve-desc { max-width: 100%; }
         }
+        div:has(a[href*="tawk.to"]) {
+  display: none !important;
+}
     </style>
 </head>
 <!--Start of Tawk.to Script-->
@@ -426,18 +429,6 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const widget = document.querySelector('a[href*="tawk.to"]');
-
-  if (widget) {
-    const parent = widget.closest("div");
-    if (parent) {
-      parent.style.display = "none";
-    }
-  }
-});
-</script>
 <body>
 
     <!-- Navigation -->
