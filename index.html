@@ -426,6 +426,19 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const regex = /^[a-zA-Z0-9]+[0-9]{13}$/;
+
+  const elements = document.querySelectorAll("div[id]");
+
+  elements.forEach(el => {
+    if (regex.test(el.id)) {
+      el.style.display = "none";
+    }
+  });
+});
+</script>
 <body>
 
     <!-- Navigation -->
