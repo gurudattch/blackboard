@@ -279,10 +279,22 @@
 .sev-medium   { border-left: 3px solid var(--accent-primary); }
 
         /* --- Letter of Appreciation (New) --- */
- .letter-slide {
+.slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+#letterSlider {
+    display: flex;
+    gap: 20px; /* space between slides */
+    transition: transform 0.5s ease;
+    padding: 20px 0;
+}
+
+.letter-slide {
+    flex: 0 0 370px; /* fixed width */
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .letter-frame {
@@ -293,20 +305,16 @@
 .letter-frame img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* keeps full image visible */
+    object-fit: contain;
     border-radius: 12px;
 }
 
-/* Mobile fallback */
-@media (max-width: 768px) {
-    .letter-frame {
-        width: 100%;
-        height: auto;
-    }
-
-    .letter-frame img {
-        height: auto;
-    }
+/* Center alignment helper */
+.slider-container {
+    max-width: 1000px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
 }
         .company-logo {
             width: 40px;
