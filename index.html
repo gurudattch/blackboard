@@ -434,6 +434,83 @@
             .cve-card { flex-direction: column; align-items: flex-start; }
             .cve-desc { max-width: 100%; }
         }
+        .marquee-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+/* Gradient fade (premium touch) */
+.marquee-wrapper::before,
+.marquee-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 100%;
+    z-index: 2;
+}
+
+.marquee-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #0b101b, transparent);
+}
+
+.marquee-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #0b101b, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 25s linear infinite;
+    align-items: center;
+}
+
+/* Pause on hover */
+.marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.logo {
+    flex: 0 0 auto;
+    padding: 0 40px;
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.logo img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* Animation */
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo img {
+        height: 40px;
+    }
+
+    .logo {
+        padding: 0 20px;
+    }
+}
     </style>
 </head>
 <!--Start of Tawk.to Script-->
@@ -682,38 +759,49 @@ global organisations that improved defensive strategies against cyber threats gl
 
 
     <!-- Hall of Fame -->
-    <!-- <section id="hof">
-        <div class="container">
-            <h2 class="section-title">Hall of Fame</h2>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">Recognized by industry leaders for responsible vulnerability disclosure.</p>
-            <div class="grid-container">
-                <div class="card">
-                    <i class="fab fa-microsoft card-icon"></i>
-                    <h3>Microsoft<3>
-                    <p>Reported critical vulnerabilities in Microsoft services and Azure infrastructure.</p>
-                    <div class="card-footer"><span>Multiple Acknowledgments</span> <i class="fas fa-check-circle"></i></div>
-                </div>
-                <div class="card">
-                    <i class="fab fa-google card-icon"></i>
-                    <h3>Google VRP</h3>
-                    <p>Identified security flaws in Google web applications and Android ecosystem components.</p>
-                    <div class="card-footer"><span>Bounty Hunter</span> <i class="fas fa-check-circle"></i></div>
-                </div>
-                <div class="card">
-                    <i class="fab fa-paypal card-icon"></i>
-                    <h3>PayPal</h3>
-                    <p>Acknowledged for responsible disclosure of bugs affecting financial transaction flows.</p>
-                    <div class="card-footer"><span>Hall of Fame</span> <i class="fas fa-check-circle"></i></div>
-                </div>
-                <div class="card">
-                    <i class="fab fa-uber card-icon"></i>
-                    <h3>Uber</h3>
-                    <p>Reported high-risk vulnerabilities in the Uber internal systems.</p>
-                    <div class="card-footer"><span>Bounty Reward</span> <i class="fas fa-check-circle"></i></div>
-                </div>
-            </div>
+    <section id="hall-of-fame" style="background:#0b101b; padding:50px 0;">
+
+    <h2 style="text-align:center; color:white; margin-bottom:30px;">
+        Hall of Fame
+    </h2>
+
+    <div class="marquee-wrapper">
+
+        <div class="marquee-track">
+
+            <!-- Logos (repeat twice for infinite loop) -->
+            <div class="logo"><img src="/logos/company1.png"></div>
+            <div class="logo"><img src="/logos/company2.png"></div>
+            <div class="logo"><img src="/logos/company3.png"></div>
+            <div class="logo"><img src="/logos/company4.png"></div>
+            <div class="logo"><img src="/logos/company5.png"></div>
+            <div class="logo"><img src="/logos/company6.png"></div>
+
+            <!-- duplicate -->
+            <div class="logo"><img src="/logos/company7.png"></div>
+            <div class="logo"><img src="/logos/company8.png"></div>
+            <div class="logo"><img src="/logos/company9.png"></div>
+            <div class="logo"><img src="/logos/company10.png"></div>
+            <div class="logo"><img src="/logos/company11.png"></div>
+            <div class="logo"><img src="/logos/company12.png"></div>
+            <div class="logo"><img src="/logos/company13.png"></div>
+            <div class="logo"><img src="/logos/company14.png"></div>
+            <div class="logo"><img src="/logos/company15.png"></div>
+            <div class="logo"><img src="/logos/company16.png"></div>
+            <div class="logo"><img src="/logos/company17.png"></div>
+            <div class="logo"><img src="/logos/company18.png"></div>
+            <div class="logo"><img src="/logos/company19.png"></div>
+            <div class="logo"><img src="/logos/company20.png"></div>
+            <div class="logo"><img src="/logos/company21.png"></div>
+            <div class="logo"><img src="/logos/company22.png"></div>
+            <div class="logo"><img src="/logos/company23.png"></div>
+            <div class="logo"><img src="/logos/company24.png"></div>
+
         </div>
-    </section> -->
+
+    </div>
+
+</section>
 
     <!-- Letters of Appreciation (New) -->
 <section id="letters" style="background:#0b101b; padding:40px 0; overflow:hidden;">
