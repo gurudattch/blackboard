@@ -279,20 +279,14 @@
 .sev-medium   { border-left: 3px solid var(--accent-primary); }
 
         /* --- Letter of Appreciation (New) --- */
-.slider-wrapper {
-    overflow: hidden;
-    width: 100%;
-}
-
 #letterSlider {
     display: flex;
-    gap: 20px; /* space between slides */
+    gap: 20px;
     transition: transform 0.5s ease;
-    padding: 20px 0;
 }
 
 .letter-slide {
-    flex: 0 0 370px; /* fixed width */
+    flex: 0 0 370px;
     display: flex;
     justify-content: center;
 }
@@ -309,12 +303,36 @@
     border-radius: 12px;
 }
 
-/* Center alignment helper */
-.slider-container {
-    max-width: 1000px;
-    margin: auto;
-    overflow: hidden;
-    position: relative;
+/* Buttons */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #111;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.nav-btn.left { left: 10px; }
+.nav-btn.right { right: 10px; }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .letter-slide {
+        flex: 0 0 80%;
+    }
+
+    .letter-frame {
+        width: 100%;
+        height: auto;
+    }
+
+    .letter-frame img {
+        height: auto;
+    }
 }
         .company-logo {
             width: 40px;
@@ -699,92 +717,81 @@ global organisations that improved defensive strategies against cyber threats gl
 
     <!-- Letters of Appreciation (New) -->
 <section id="letters" style="background:#0b101b; padding:40px 0; overflow:hidden;">
-    <div style="max-width:1000px; margin:0 auto; position:relative;">
+    <div style="max-width:1000px; margin:0 auto; position:relative; overflow:hidden;">
 
-                    <h2 class="section-title"> Letters of Appreciation </h2>
+        <h2 class="section-title" style="text-align:center; color:white; margin-bottom:20px;">
+            Letters of Appreciation
+        </h2>
 
-        <!-- Slider Wrapper -->
-        <div id="letterSlider" style="display:flex; transition:0.5s ease;">
+        <!-- Slider -->
+        <div id="letterSlider">
 
-            <!-- Slide 1 -->
-            <div style="min-width:100%; padding:10px; box-sizing:border-box;" class="letter-slide">
-    <div class="letter-frame">
-        <img src="/img/letter1.png">
-    </div>
-</div>
+            <!-- Slides -->
+            <div class="letter-slide">
+                <div class="letter-frame"><img src="/img/letter1.png"></div>
+            </div>
 
-            <!-- Slide 2 -->
-           <div style="min-width:100%; padding:10px; box-sizing:border-box;" class="letter-slide">
-    <div class="letter-frame">
-        <img src="/img/letter2.png">
-    </div>
-</div>
+            <div class="letter-slide">
+                <div class="letter-frame"><img src="/img/letter2.png"></div>
+            </div>
 
-            <!-- Slide 3 -->
-            <div style="min-width:100%; padding:10px; box-sizing:border-box;" class="letter-slide">
-    <div class="letter-frame">
-        <img src="/img/letter3.png">
-    </div>
-</div>
+            <div class="letter-slide">
+                <div class="letter-frame"><img src="/img/letter3.png"></div>
+            </div>
 
-               <div style="min-width:100%; padding:10px; box-sizing:border-box;" class="letter-slide">
-    <div class="letter-frame">
-        <img src="/img/letter4.png">
-    </div>
-</div>
+            <div class="letter-slide">
+                <div class="letter-frame"><img src="/img/letter4.png"></div>
+            </div>
 
-              <div style="min-width:100%; padding:10px; box-sizing:border-box;" class="letter-slide">
-    <div class="letter-frame">
-        <img src="/img/letter5.png">
-    </div>
-</div>
+            <div class="letter-slide">
+                <div class="letter-frame"><img src="/img/letter5.png"></div>
+            </div>
 
-           <div style="min-width:100%; padding:10px; box-sizing:border-box;" class="letter-slide">
-    <div class="letter-frame">
-        <img src="/img/letter6.png">
-    </div>
-</div>
+            <div class="letter-slide">
+                <div class="letter-frame"><img src="/img/letter6.png"></div>
+            </div>
 
         </div>
 
         <!-- Controls -->
-        <button onclick="prevSlide()" 
-            style="position:absolute; top:50%; left:10px; transform:translateY(-50%);
-                   background:#111; color:white; border:none; padding:10px 15px;
-                   cursor:pointer; border-radius:8px;">
-            ◀
-        </button>
-
-        <button onclick="nextSlide()" 
-            style="position:absolute; top:50%; right:10px; transform:translateY(-50%);
-                   background:#111; color:white; border:none; padding:10px 15px;
-                   cursor:pointer; border-radius:8px;">
-            ▶
-        </button>
+        <button onclick="prevSlide()" class="nav-btn left">◀</button>
+        <button onclick="nextSlide()" class="nav-btn right">▶</button>
 
     </div>
 </section>
 
 <script>
 let currentSlide = 0;
+
 const slider = document.getElementById("letterSlider");
-const totalSlides = slider.children.length;
+const slides = document.querySelectorAll(".letter-slide");
+
+const slideWidth = 370;
+const gap = 20;
 
 function updateSlide() {
-    slider.style.transform = "translateX(-" + (currentSlide * 100) + "%)";
+    const container = slider.parentElement;
+    const containerWidth = container.offsetWidth;
+
+    const offset = (slideWidth + gap) * currentSlide;
+    const centerOffset = (containerWidth / 2) - (slideWidth / 2);
+
+    slider.style.transform = `translateX(${centerOffset - offset}px)`;
 }
 
 function nextSlide() {
-    currentSlide = (currentSlide + 1) % totalSlides;
+    currentSlide = (currentSlide + 1) % slides.length;
     updateSlide();
 }
 
 function prevSlide() {
-    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
     updateSlide();
 }
-</script>
 
+window.onload = updateSlide;
+window.onresize = updateSlide;
+</script>
     <!-- Volunteer Gallery (New) -->
     <section id="gallery">
         <div class="container">
