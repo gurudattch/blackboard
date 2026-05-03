@@ -693,47 +693,70 @@ global organisations that improved defensive strategies against cyber threats gl
     </section> -->
 
     <!-- Letters of Appreciation (New) -->
-    <section id="letters" style="background: #0b101b;">
-        <div class="container">
-            <h2 class="section-title">Letters of Appreciation</h2>
-            <div class="grid-container" style="max-width: 1000px; margin: 0 auto;">
-                
-                <div class="letter-card">
-                    <p>We would like to express our sincere gratitude for the detailed vulnerability report submitted. Gurudatt's analysis was thorough and helped us secure a critical endpoint before it could be exploited.</p>
-                    <div class="letter-footer">
-                        <div class="company-logo">M</div>
-                        <div>
-                            <strong style="display:block; color:var(--text-main);">Security Team</strong>
-                            <span style="font-size:0.8rem; color:var(--accent-primary);">Microsoft Security Response Center</span>
-                        </div>
-                    </div>
-                </div>
+<section id="letters" style="background:#0b101b; padding:40px 0; overflow:hidden;">
+    <div style="max-width:1000px; margin:0 auto; position:relative;">
 
-                <div class="letter-card">
-                    <p>Thank you for your continuous contribution to our bug bounty program. The recent finding regarding the authentication bypass was exceptional and demonstrates high-level technical proficiency.</p>
-                    <div class="letter-footer">
-                        <div class="company-logo">U</div>
-                        <div>
-                            <strong style="display:block; color:var(--text-main);">Bug Bounty Team</strong>
-                            <span style="font-size:0.8rem; color:var(--accent-primary);">Uber Technologies</span>
-                        </div>
-                    </div>
-                </div>
+        <h2 style="text-align:center; color:white; margin-bottom:30px;">
+            Letters of Appreciation
+        </h2>
 
-                <div class="letter-card">
-                    <p>Gurudatt's report was not just a finding; it was a complete root cause analysis with proof of concept. This level of detail is rare and highly appreciated by our engineering team.</p>
-                    <div class="letter-footer">
-                        <div class="company-logo">P</div>
-                        <div>
-                            <strong style="display:block; color:var(--text-main);">CISO Office</strong>
-                            <span style="font-size:0.8rem; color:var(--accent-primary);">PayPal Holdings</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Slider Wrapper -->
+        <div id="letterSlider" style="display:flex; transition:0.5s ease;">
 
+            <!-- Slide 1 -->
+            <div style="min-width:100%; padding:10px; box-sizing:border-box;">
+                <img src="letter1.jpg" style="width:100%; border-radius:12px;">
             </div>
+
+            <!-- Slide 2 -->
+            <div style="min-width:100%; padding:10px; box-sizing:border-box;">
+                <img src="letter2.jpg" style="width:100%; border-radius:12px;">
+            </div>
+
+            <!-- Slide 3 -->
+            <div style="min-width:100%; padding:10px; box-sizing:border-box;">
+                <img src="letter3.jpg" style="width:100%; border-radius:12px;">
+            </div>
+
         </div>
-    </section> 
+
+        <!-- Controls -->
+        <button onclick="prevSlide()" 
+            style="position:absolute; top:50%; left:10px; transform:translateY(-50%);
+                   background:#111; color:white; border:none; padding:10px 15px;
+                   cursor:pointer; border-radius:8px;">
+            ◀
+        </button>
+
+        <button onclick="nextSlide()" 
+            style="position:absolute; top:50%; right:10px; transform:translateY(-50%);
+                   background:#111; color:white; border:none; padding:10px 15px;
+                   cursor:pointer; border-radius:8px;">
+            ▶
+        </button>
+
+    </div>
+</section>
+
+<script>
+let currentSlide = 0;
+const slider = document.getElementById("letterSlider");
+const totalSlides = slider.children.length;
+
+function updateSlide() {
+    slider.style.transform = "translateX(-" + (currentSlide * 100) + "%)";
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlide();
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlide();
+}
+</script>
 
     <!-- Volunteer Gallery (New) -->
     <section id="gallery">
