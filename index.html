@@ -279,51 +279,35 @@
 .sev-medium   { border-left: 3px solid var(--accent-primary); }
 
         /* --- Letter of Appreciation (New) --- */
-        .letter-img {
+ .letter-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter-frame {
+    width: 370px;
+    height: 640px;
+}
+
+.letter-frame img {
     width: 100%;
-    max-width: 600px;   /* controls desktop size */
-    margin: 0 auto;
-    display: block;
+    height: 100%;
+    object-fit: contain; /* keeps full image visible */
     border-radius: 12px;
 }
 
+/* Mobile fallback */
 @media (max-width: 768px) {
-    .letter-img {
-        max-width: 100%; /* full width on mobile */
+    .letter-frame {
+        width: 100%;
+        height: auto;
+    }
+
+    .letter-frame img {
+        height: auto;
     }
 }
-        .letter-card {
-            background: linear-gradient(135deg, #0f1623 0%, #05080f 100%);
-            border: 1px solid var(--border-color);
-            padding: 2.5rem;
-            position: relative;
-            font-style: italic;
-        }
-        .letter-card::before {
-            content: "“";
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 5rem;
-            color: rgba(255,255,255,0.05);
-            font-family: serif;
-        }
-        .letter-card::after {
-            content: "”";
-            position: absolute;
-            bottom: -20px;
-            right: 20px;
-            font-size: 5rem;
-            color: rgba(255,255,255,0.05);
-            font-family: serif;
-        }
-        .letter-footer {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 1.5rem;
-            font-style: normal;
-        }
         .company-logo {
             width: 40px;
             height: 40px;
